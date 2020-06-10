@@ -10,28 +10,25 @@
 <hr>
 <h2>Meals</h2>
 <c:set var="meals" value="${requestScope.mealsToList}"/>
-<table border="1">
-    <thead>
-    <th>Date</th>
-    <th>Description</th>
-    <th>Calories</th>
-    </thead>
+<table class="tg">
+    <tr>
+        <th width="30">ID</th>
+        <th width="120">Date/Time</th>
+        <th width="200">Description</th>
+        <th width="50">Calories</th>
+        <th width="30"></th>
+        <th width="30"></th>
+    </tr>
     <tbody>
     <c:forEach items="${meals}" var="meal">
-        <c:if test="${meal.excess}" var="isExcess">
-            <tr style="color: red">
-                <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:mm')}</td>
-                <td>${meal.description}</td>
-                <td>${meal.calories}</td>
-            </tr>
-        </c:if>
-        <c:if test="${!meal.excess}" var="isNotExcess">
-            <tr style="color: green">
-                <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:mm')}</td>
-                <td>${meal.description}</td>
-                <td>${meal.calories}</td>
-            </tr>
-        </c:if>
+        <tr style="color: ${meal.excess ? "red" : "green"}">
+            <td>${meal.id}</td>
+            <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:mm')}</td>
+            <td>${meal.description}</td>
+            <td>${meal.calories}</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
     </c:forEach>
     </tbody>
 </table>
