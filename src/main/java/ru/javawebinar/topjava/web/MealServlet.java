@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
+import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.MealRepositoryImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -12,34 +14,65 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.util.Arrays;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
-    private static final List<Meal> meals = Arrays.asList(
-            new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
-            new Meal(2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-            new Meal(3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
-            new Meal(4, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-            new Meal(5, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
-            new Meal(6, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
-            new Meal(7, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-    );
-
+    private static final MealRepository mealRepository = MealRepositoryImpl.getInstance();
     private static final Logger log = getLogger(MealServlet.class);
+    private static final String LIST_MEALS = "/meals.jsp";
+    private static final String INSERT_OR_EDIT = "/meal.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("redirect to meals");
+        String forward = "";
+        String action = req.getParameter("action");
 
-        List<MealTo> mealToList = MealsUtil.filteredByStreams(meals, LocalTime.MIN, LocalTime.MAX, 2000);
+        if (action.equalsIgnoreCase("delete")) {
+            long id = Long.parseLong(req.getParameter("id"));
+            mealRepository.deleteMeal(id);
+            forward = LIST_MEALS;
+            List<MealTo> mealToList = MealsUtil.filteredByStreams(mealRepository.listMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
+            req.setAttribute("mealToList", mealToList);
+        } else if (action.equalsIgnoreCase("listMeal")) {
+            forward = LIST_MEALS;
+            List<MealTo> mealToList = MealsUtil.filteredByStreams(mealRepository.listMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
+            req.setAttribute("mealToList", mealToList);
+        } else if (action.equalsIgnoreCase("edit")) {
+            forward = INSERT_OR_EDIT;
+            long id = Long.parseLong(req.getParameter("id"));
+            req.setAttribute("meal",mealRepository.getMealById(id));
+        } else {
+            forward = INSERT_OR_EDIT;
+        }
 
-        req.setAttribute("mealsToList", mealToList);
 
-        req.getRequestDispatcher("/meals.jsp").forward(req, resp);
-//        resp.sendRedirect("meals.jsp");
+        req.getRequestDispatcher(forward).forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Meal meal = new Meal();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(req.getParameter("dateTime"), dtf);
+        meal.setDateTime(dateTime);
+        meal.setDescription(req.getParameter("description"));
+        meal.setCalories(Integer.parseInt(req.getParameter("calories")));
+
+        String id = req.getParameter("id");
+
+        if (id == null || id.isEmpty()) {
+            mealRepository.saveMeal(meal);
+        }
+        else {
+            meal.setId(Long.parseLong(id));
+            mealRepository.updateMeal(meal);
+        }
+
+        List<MealTo> mealToList = MealsUtil.filteredByStreams(mealRepository.listMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
+        req.setAttribute("mealToList", mealToList);
+        req.getRequestDispatcher(LIST_MEALS).forward(req, resp);
     }
 }

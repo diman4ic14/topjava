@@ -9,7 +9,7 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-<c:set var="meals" value="${requestScope.mealsToList}"/>
+<c:set var="meals" value="${requestScope.mealToList}"/>
 <table class="tg">
     <tr>
         <th width="30">ID</th>
@@ -26,11 +26,13 @@
             <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:mm')}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td><a href="${pageContext.request.contextPath}/meals?action=edit&id=${meal.id}">Edit</a></td>
+            <td><a href="${pageContext.request.contextPath}/meals?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<p></p>
+<a href="${pageContext.request.contextPath}/meals?action=insert">Add meal</a>
 </body>
 </html>
