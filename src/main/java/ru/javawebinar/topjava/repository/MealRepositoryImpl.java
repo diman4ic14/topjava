@@ -17,6 +17,16 @@ public class MealRepositoryImpl implements MealRepository{
     private final AtomicLong id = new AtomicLong(1);
     private static MealRepositoryImpl mealRepository;
 
+    {
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500));
+        meals.put(id.get(), new Meal(id.getAndIncrement(), LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410));
+    }
+
     private MealRepositoryImpl() {
     }
 
