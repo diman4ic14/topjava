@@ -36,16 +36,21 @@ public class MealServlet extends HttpServlet {
             forward = LIST_MEALS;
             List<MealTo> mealToList = MealsUtil.filteredByStreams(mealRepository.listMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
             req.setAttribute("mealToList", mealToList);
+            log.info("Deleting meal by id" + id);
         } else if (action.equalsIgnoreCase("listMeal")) {
             forward = LIST_MEALS;
             List<MealTo> mealToList = MealsUtil.filteredByStreams(mealRepository.listMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
             req.setAttribute("mealToList", mealToList);
+            log.info("Getting mealToList");
         } else if (action.equalsIgnoreCase("edit")) {
             forward = INSERT_OR_EDIT;
             long id = Long.parseLong(req.getParameter("id"));
-            req.setAttribute("meal",mealRepository.getMealById(id));
+            Meal meal = mealRepository.getMealById(id);
+            req.setAttribute("meal",meal);
+            log.info("Editing meal. Details: " + meal);
         } else {
             forward = INSERT_OR_EDIT;
+            log.info("Creating new meal");
         }
 
 
@@ -54,6 +59,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Post create or update meal");
         Meal meal = new Meal();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(req.getParameter("dateTime"), dtf);
