@@ -21,6 +21,37 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
+    <br><br>
+    <div class="card border-dark">
+        <div class="card-body pb-0">
+            <form id="filter">
+                <div class="row">
+                    <div class="offset-1 col-2">
+                        <label for="startDate">From date (inclusive)</label>
+                        <input class="form-control" name="startDate" id="startDate" autocomplete="off">
+                    </div>
+                    <div class="col-2">
+                        <label for="endDate">To date (inclusive)</label>
+                        <input class="form-control" name="endDate" id="endDate" autocomplete="off">
+                    </div>
+                    <div class="offset-2 col-2">
+                        <label for="startTime">From time (inclusive)</label>
+                        <input class="form-control" name="startTime" id="startTime" autocomplete="off">
+                    </div>
+                    <div class="col-2">
+                        <label for="endTime">To time (exclusive)</label>
+                        <input class="form-control" name="endTime" id="endTime" autocomplete="off">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary" onclick="updateFilteredTable()">
+                <span class="fa fa-filter"></span>
+                Apply filter
+            </button>
+        </div>
+    </div>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
