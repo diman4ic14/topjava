@@ -1,4 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/abec4299947c4cc9a92da7a16cde6b6b)](https://www.codacy.com/manual/diman4ic14/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=diman4ic14/topjava&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/diman4ic14/topjava.svg?branch=master)](https://api.travis-ci.org/diman4ic14/topjava.svg?branch=master)
+
 
 Java Enterprise Online Project 
 ===============================
