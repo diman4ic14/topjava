@@ -27,7 +27,7 @@ public class Profiles {
         }
     }
 
-    public static String getActiveRepositoryImplementation() {
+/*    public static String getActiveRepositoryImplementation() {
         try {
             Class.forName("ru.javawebinar.topjava.repository.jdbc.JdbcMealRepository");
             return JDBC;
@@ -44,5 +44,5 @@ public class Profiles {
                 }
             }
         }
-    }
+    }*/
 }
