@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.web;
+/*package ru.javawebinar.topjava.web;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
@@ -84,4 +84,4 @@ public class MealServlet extends HttpServlet {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(paramId);
     }
-}
+}*/
