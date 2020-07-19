@@ -11,14 +11,8 @@
     <h3><a href="${pageContext.request.contextPath}"><spring:message code="app.home"/> </a></h3>
     <hr>
     <h2>
-        <c:choose>
-            <c:when test="${param.action=='create'}">
-                <spring:message code="meal.create"/>
-            </c:when>
-            <c:otherwise>
-                <spring:message code="meal.edit"/>
-            </c:otherwise>
-        </c:choose>
+        <c:set var="action" value="${param.action == 'create' ? 'meal.create' : 'meal.edit'}"/>
+        <spring:message code="${action}"/>
     </h2>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="meals">
