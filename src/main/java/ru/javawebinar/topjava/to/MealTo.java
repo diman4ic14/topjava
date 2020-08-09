@@ -1,15 +1,23 @@
 package ru.javawebinar.topjava.to;
 
+import javax.validation.constraints.*;
 import java.beans.ConstructorProperties;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class MealTo extends BaseTo {
+public class MealTo extends BaseTo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @NotNull
     private final LocalDateTime dateTime;
 
+    @NotBlank
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     private final String description;
 
+    @Min(value = 10, message = "Calories should be at least 10")
+    @Max(value = 5000, message = "Calories should be at more 5000")
     private final int calories;
 
 //    private final AtomicBoolean excess;      // filteredByAtomic
@@ -29,10 +37,6 @@ public class MealTo extends BaseTo {
 //    public Boolean getExcess() {
 //        return excess.get();
 //    }
-
-    public Integer getId() {
-        return id;
-    }
 
     public LocalDateTime getDateTime() {
         return dateTime;
