@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.to;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.*;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ public class MealTo extends BaseTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private final LocalDateTime dateTime;
 
     @NotBlank
@@ -23,10 +26,10 @@ public class MealTo extends BaseTo implements Serializable {
 //    private final AtomicBoolean excess;      // filteredByAtomic
 //    private final Boolean excess;            // filteredByReflection
 //    private final Supplier<Boolean> excess;  // filteredByClosure
-    private final boolean excess;
+    private final Boolean excess;
 
     @ConstructorProperties({"id", "dateTime", "description", "calories", "excess"})
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, Boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
