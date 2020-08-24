@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.util;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -83,5 +85,17 @@ public class ValidationUtil {
                         .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                         .collect(Collectors.joining("<br>"))
         );
+    }
+
+    public static void getErrorBinding(BindingResult result) throws BindException {
+        if (result.hasErrors()) {
+            throw new BindException(result);
+        }
+    }
+
+    public static String getErrorMessage(BindingResult result) {
+        return result.getFieldErrors().stream().map(fe ->
+                String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
+                .collect(Collectors.joining("<br>"));
     }
 }
